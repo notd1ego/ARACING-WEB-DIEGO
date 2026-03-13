@@ -222,13 +222,15 @@ button{cursor:pointer;font-family:inherit;}
 
 /* ═══════════════════════════ HERO ════════════════════════════ */
 #inicio{
-  min-height:100svh;
+  height:100svh;
+  min-height:600px;
   position:relative;
   display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
+  align-items:center;justify-content:space-between;
   text-align:center;
-  padding:calc(var(--nav-h) + 10px) var(--gutter) 28px;
+  padding:calc(var(--nav-h) + clamp(16px,3vh,40px)) var(--gutter) clamp(24px,4vh,48px);
   overflow:hidden;
+  box-sizing:border-box;
 }
 .hero-bg{
   position:absolute;inset:0;
@@ -269,17 +271,26 @@ button{cursor:pointer;font-family:inherit;}
   100%{transform:translateX(120%);opacity:0;}
 }
 
-.hero-content{position:relative;z-index:3;width:100%;}
+/* hero-content usa flex column con espacio distribuido entre bloques */
+.hero-content{
+  position:relative;z-index:3;width:100%;
+  display:flex;flex-direction:column;align-items:center;
+  flex:1;
+  justify-content:space-evenly;
+  gap:0;
+}
 
 .hero-eyebrow{
   display:flex;align-items:center;justify-content:center;gap:8px;
-  margin-bottom:20px;
   animation:fadeUp .6s ease both;
 }
 .hero-eyebrow span{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--red);}
 
 .hero-logo{
-  max-width:min(780px,90vw);margin:0 auto 14px;
+  max-width:min(820px,88vw);
+  width:100%;
+  margin:0 auto;
+  display:block;
   animation:fadeUp .65s .08s ease both, logoGlow 3s 1s ease-in-out infinite alternate;
   filter:drop-shadow(0 0 32px rgba(255,46,46,.5)) drop-shadow(0 6px 20px rgba(0,0,0,.7));
 }
@@ -288,16 +299,21 @@ button{cursor:pointer;font-family:inherit;}
   to{filter:drop-shadow(0 0 50px rgba(255,46,46,.9)) drop-shadow(0 0 80px rgba(255,46,46,.3)) drop-shadow(0 6px 20px rgba(0,0,0,.7));}
 }
 .hero-tagline{
-  font-size:clamp(10px,1.6vw,13px);letter-spacing:6px;text-transform:uppercase;
-  color:var(--muted);margin-bottom:32px;
+  font-size:clamp(10px,1.4vw,13px);letter-spacing:6px;text-transform:uppercase;
+  color:var(--muted);
   animation:fadeUp .65s .16s ease both;
+}
+
+/* bloque central: countdown + label */
+.hero-middle{
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  animation:fadeUp .65s .22s ease both;
 }
 
 /* Countdown */
 .hero-cd{
   display:inline-flex;border:1px solid var(--red);border-radius:var(--r);
-  overflow:hidden;margin-bottom:10px;
-  animation:fadeUp .65s .22s ease both;
+  overflow:hidden;
   box-shadow:0 0 30px rgba(255,46,46,.25), inset 0 0 30px rgba(255,46,46,.05);
   position:relative;
 }
@@ -307,13 +323,14 @@ button{cursor:pointer;font-family:inherit;}
   pointer-events:none;
 }
 .cd-item{
-  padding:18px 22px;text-align:center;background:rgba(255,46,46,.04);
-  border-right:1px solid rgba(255,46,46,.3);min-width:72px;
+  padding:clamp(12px,2vh,18px) clamp(14px,2vw,22px);
+  text-align:center;background:rgba(255,46,46,.04);
+  border-right:1px solid rgba(255,46,46,.3);min-width:clamp(56px,8vw,72px);
   position:relative;
 }
 .cd-item:last-child{border-right:none;}
 .cd-n{
-  font-family:var(--f-display);font-size:clamp(32px,5vw,44px);
+  font-family:var(--f-display);font-size:clamp(26px,4vw,44px);
   color:#fff;line-height:1;display:block;
   text-shadow:0 0 20px rgba(255,46,46,.8), 0 0 40px rgba(255,46,46,.4);
   animation:cdPulse 1s ease-in-out infinite alternate;
@@ -326,30 +343,30 @@ button{cursor:pointer;font-family:inherit;}
 
 .hero-next-label{
   font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);
-  margin-bottom:28px;animation:fadeUp .65s .28s ease both;
 }
 
 .hero-btns{
   display:flex;gap:12px;justify-content:center;flex-wrap:wrap;
-  margin-bottom:52px;animation:fadeUp .65s .33s ease both;
+  animation:fadeUp .65s .33s ease both;
 }
 
 /* Stats */
 .hero-stats{
   display:flex;justify-content:center;flex-wrap:wrap;
   animation:fadeUp .65s .4s ease both;
-  border-top:1px solid var(--line);padding-top:32px;
+  border-top:1px solid var(--line);padding-top:clamp(16px,2.5vh,32px);
+  width:100%;
   position:relative;z-index:3;
   gap:0;
 }
 .hstat{
-  padding:0 clamp(16px,3vw,36px);
+  padding:0 clamp(14px,3vw,36px);
   text-align:center;border-right:1px solid var(--line);
   transition:transform .2s;cursor:default;
 }
 .hstat:hover{transform:scale(1.08);}
 .hstat:last-child{border-right:none;}
-.hstat-n{font-family:var(--f-display);font-size:clamp(32px,5vw,46px);color:#fff;line-height:1;transition:text-shadow .3s;}
+.hstat-n{font-family:var(--f-display);font-size:clamp(28px,4vw,46px);color:#fff;line-height:1;transition:text-shadow .3s;}
 .hstat:hover .hstat-n{text-shadow:0 0 20px rgba(255,46,46,.8);}
 .hstat-n em{color:var(--red);font-style:normal;}
 .hstat-l{font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-top:5px;}
@@ -761,14 +778,18 @@ footer{
 @media (max-width:768px){
   :root{--nav-h:56px;}
   .sec{padding:52px var(--gutter);}
-  #inicio{padding:calc(var(--nav-h) + 6px) var(--gutter) 90px;}
+  #inicio{
+    height:100svh;
+    padding:calc(var(--nav-h) + 10px) var(--gutter) 84px;
+  }
+  .hero-content{justify-content:space-evenly;}
   .news-feat{grid-template-columns:1fr;}
   .rcard{grid-template-columns:56px 1px 1fr;}
   .cal-results-grid{grid-template-columns:1fr !important;}
   .rstatus{display:none;}
   .bcast-bot{grid-template-columns:1fr 1fr;}
   .bcast-info:nth-child(n+3){border-top:1px solid var(--line);}
-  .hero-cd .cd-item{padding:10px 12px;min-width:52px;}
+  .hero-cd .cd-item{padding:10px 14px;min-width:56px;}
   .hstat{padding:0 14px;}
   .foot-inner{grid-template-columns:1fr;gap:16px;text-align:center;}
   .foot-links{justify-content:center;}
@@ -782,20 +803,22 @@ footer{
 }
 @media (max-width:480px){
   .sec{padding:44px var(--gutter);}
-  .hero-logo{max-width:94vw; margin-bottom:8px;}
-  .hero-eyebrow{margin-bottom:10px;}
-  .hero-tagline{margin-bottom:14px;}
-  #inicio{padding:calc(var(--nav-h) + 4px) 16px 86px;}
-  .hero-cd{display:none;}
-  .hero-next-label{display:none;}
+  #inicio{
+    height:100svh;
+    padding:calc(var(--nav-h) + 6px) 16px 84px;
+  }
+  .hero-logo{max-width:96vw;}
+  .hero-content{justify-content:space-evenly;}
+  .hero-middle{display:none;}
   .pilots-grid{grid-template-columns:1fr 1fr;}
   .replays-grid{grid-template-columns:1fr;}
   .tier-grid{grid-template-columns:1fr;}
   .lic-banner{height:180px;}
   .lic-banner-overlay{padding:0 16px;}
   .hero-btns .btn{padding:12px 20px;font-size:10px;}
-  .hstat-n{font-size:22px;}
-  .hero-stats{padding-top:16px; margin-top:6px;}
+  .hstat-n{font-size:20px;}
+  .hstat{padding:0 12px;}
+  .hero-stats{padding-top:14px;}
   .sec-head h2{font-size:22px;}
   .lic-how-title h3{font-size:22px;}
   .bcast-bot{grid-template-columns:1fr;}
@@ -1302,13 +1325,15 @@ body.race #theme-toggle { border-color:rgba(255,46,46,.5); box-shadow:0 4px 20px
 
 <img src="images/logopro.png" alt="ARacing League" class="hero-logo">
 
-    <div class="hero-cd">
-      <div class="cd-item"><span class="cd-n" id="cd-d">--</span><span class="cd-l">Días</span></div>
-      <div class="cd-item"><span class="cd-n" id="cd-h">--</span><span class="cd-l">Horas</span></div>
-      <div class="cd-item"><span class="cd-n" id="cd-m">--</span><span class="cd-l">Min</span></div>
-      <div class="cd-item"><span class="cd-n" id="cd-s">--</span><span class="cd-l">Seg</span></div>
+    <div class="hero-middle">
+      <div class="hero-cd">
+        <div class="cd-item"><span class="cd-n" id="cd-d">--</span><span class="cd-l">Días</span></div>
+        <div class="cd-item"><span class="cd-n" id="cd-h">--</span><span class="cd-l">Horas</span></div>
+        <div class="cd-item"><span class="cd-n" id="cd-m">--</span><span class="cd-l">Min</span></div>
+        <div class="cd-item"><span class="cd-n" id="cd-s">--</span><span class="cd-l">Seg</span></div>
+      </div>
+      <p class="hero-next-label">Próxima carrera · Ronda 3 · GP Fangio · 22 Mar · 22:00 hs</p>
     </div>
-    <p class="hero-next-label">Próxima carrera · Ronda 3 · GP Fangio · 22 Mar · 22:00 hs</p>
 
     <div class="hero-btns">
       <a href="#transmision" class="btn btn-red">▶ Ver Presentación</a>
