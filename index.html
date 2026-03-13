@@ -82,7 +82,24 @@ button{cursor:pointer;font-family:inherit;}
 /* ═══════════════════════════ UTILS ═══════════════════════════ */
 .wrap{max-width:var(--max-w);margin:0 auto;padding:0 var(--gutter);}
 .sec{padding:var(--sec-py) var(--gutter);max-width:var(--max-w);margin:0 auto;}
-.divider{border:none;border-top:1px solid var(--line2);margin:0;}
+.divider{
+  border:none;margin:0;height:1px;
+  background:var(--line2);
+  position:relative;overflow:hidden;
+}
+.divider::after{
+  content:'';
+  position:absolute;top:0;left:-40%;
+  width:40%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,46,46,.7),rgba(255,100,50,.5),transparent);
+  animation:dividerPulse 4s ease-in-out infinite;
+}
+@keyframes dividerPulse{
+  0%{left:-40%;opacity:0;}
+  10%{opacity:1;}
+  90%{opacity:1;}
+  100%{left:140%;opacity:0;}
+}
 
 .chip{
   display:inline-flex;align-items:center;gap:6px;
@@ -555,22 +572,32 @@ button{cursor:pointer;font-family:inherit;}
   border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;
 }
 .pcard{
-  background:var(--bg2);padding:26px 20px;position:relative;overflow:hidden;
-  transition:background .25s, transform .25s, box-shadow .25s;
-  border:1px solid transparent;
+  background:rgba(255,255,255,.03);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  padding:26px 20px;position:relative;overflow:hidden;
+  transition:background .3s, transform .28s, box-shadow .3s, border-color .3s;
+  border:1px solid rgba(255,255,255,.06);
   cursor:default;
+}
+.pcard::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.06) 0%,transparent 55%);
+  pointer-events:none;z-index:0;
 }
 .pcard::after{
   content:'';position:absolute;inset:0;
-  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,255,255,.015) 2px,rgba(255,255,255,.015) 4px);
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,255,255,.012) 2px,rgba(255,255,255,.012) 4px);
   pointer-events:none;z-index:0;opacity:0;transition:opacity .3s;
 }
 .pcard:hover::after{opacity:1;}
 .pcard:hover{
-  background:var(--bg3);
-  transform:translateY(-4px) scale(1.01);
-  box-shadow:0 0 24px rgba(var(--tc-rgb,255,46,46),.25), 0 8px 32px rgba(0,0,0,.5);
-  border-color:rgba(var(--tc-rgb,255,46,46),.3);
+  background:rgba(255,255,255,.07);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  transform:translateY(-5px) scale(1.015);
+  box-shadow:0 0 32px rgba(var(--tc-rgb,255,46,46),.3), 0 12px 40px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.1);
+  border-color:rgba(var(--tc-rgb,255,46,46),.4);
 }
 .pcard:hover .pca{transform:scaleY(1);}
 .pcard:hover .pcnum{opacity:.18;color:var(--tc,var(--red));text-shadow:0 0 40px var(--tc,var(--red));}
@@ -1338,6 +1365,260 @@ body.race #theme-toggle { border-color:rgba(255,46,46,.5); box-shadow:0 4px 20px
 .faq-cat-btn:hover:not(.active) { color:var(--text); border-color:var(--dim); }
 .faq-item[data-cat] { transition:opacity .2s, max-height .3s; }
 .faq-item.hidden { display:none; }
+
+/* ═══════════ MOBILE IMPROVEMENTS ═══════════════════════════ */
+/* Prevent horizontal overflow on all screens */
+html, body { overflow-x:hidden; max-width:100vw; }
+img, video, iframe { max-width:100%; }
+
+@media(max-width:768px) {
+  /* Section titles: allow wrapping on mobile */
+  .sec-head h2 { white-space:normal; font-size:clamp(20px,5.5vw,32px); }
+
+  /* Hero buttons: stack vertically on small screens */
+  .hero-btns { flex-direction:column; align-items:center; gap:10px; }
+  .hero-btns .btn { width:100%; max-width:280px; justify-content:center; }
+
+  /* Race cards: simpler layout */
+  .rcard { grid-template-columns:56px 1px 1fr; }
+  .rcard.next .rstatus { display:none; }
+
+  /* Standings table: make scrollable */
+  .standings-wrap { overflow:visible; }
+  .standings-wrap > div[style] { overflow-x:auto !important; -webkit-overflow-scrolling:touch; }
+  .st { min-width:480px; display:table; }
+
+  /* Results table hint */
+  .rtable-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+
+  /* Pilots grid: 2 cols min */
+  .pilots-grid { grid-template-columns:repeat(2,1fr); }
+
+  /* News featured: single col */
+  .news-feat { grid-template-columns:1fr; }
+
+  /* License banner text */
+  .lic-banner-text h3 { font-size:clamp(18px,5vw,28px); }
+  .lic-banner-text p { font-size:11px; max-width:220px; }
+
+  /* About intro: stack */
+  .about-intro { grid-template-columns:1fr; }
+
+  /* Contact layout: stack */
+  .contact-layout { grid-template-columns:1fr; }
+  .form-grid { grid-template-columns:1fr; }
+
+  /* Countdown: tighter on mobile */
+  .hero-cd { flex-wrap:nowrap; overflow-x:auto; }
+  .cd-item { min-width:54px; padding:10px 12px; }
+
+  /* YT CTA: stack */
+  .yt-cta-inner { flex-direction:column; text-align:center; }
+  .yt-left { flex-direction:column; gap:10px; }
+  .yt-btns { justify-content:center; flex-wrap:wrap; }
+
+  /* Broadcast info: 2 cols */
+  .bcast-bot { grid-template-columns:1fr 1fr; }
+  .bcast-info:nth-child(n+3) { border-top:1px solid var(--line); }
+
+  /* Rules layout: single col */
+  .rules-layout { grid-template-columns:1fr; }
+
+  /* Tier grid: single col */
+  .tier-grid { grid-template-columns:1fr; }
+
+  /* Footer: center everything */
+  .foot-inner { grid-template-columns:1fr; gap:14px; text-align:center; }
+  .foot-links { justify-content:center; }
+  .foot-logo { display:flex; justify-content:center; }
+}
+
+@media(max-width:480px) {
+  /* Root adjustments */
+  :root { --gutter:14px; }
+
+  /* Pilots: 2 cols but smaller padding */
+  .pilots-grid { grid-template-columns:1fr 1fr; }
+  .pcard { padding:18px 14px; }
+  .pcnum { font-size:52px; }
+  .pcname { font-size:15px; }
+
+  /* Section heading */
+  .sec-head { gap:10px; }
+  .sec-head h2 { font-size:20px; letter-spacing:1px; }
+
+  /* Tables: horizontal scroll with indicator */
+  .standings-wrap, .rtable { overflow-x:auto; -webkit-overflow-scrolling:touch; display:block; }
+
+  /* FAQ padding fix */
+  .faq-a { padding-left:32px; }
+
+  /* Contact form padding */
+  .contact-form { padding:20px 16px; }
+
+  /* Broadcast bottom: single col */
+  .bcast-bot { grid-template-columns:1fr; }
+
+  /* Hero stats: tighter */
+  .hero-stats { gap:0; }
+  .hstat { padding:0 10px; }
+  .hstat-n { font-size:22px; }
+  .hstat-l { font-size:7px; }
+
+  /* Replays: single col */
+  .replays-grid { grid-template-columns:1fr; }
+
+  /* Lic cards */
+  .lic-cards { grid-template-columns:1fr; }
+
+  /* Sponsor slots: shrink a bit */
+  .sponsor-slot.main { width:160px; height:66px; }
+  .sponsor-slot.sec  { width:120px; height:54px; }
+  .sponsor-slot.std  { width:100px; height:46px; }
+
+  /* News grid */
+  .news-grid { grid-template-columns:1fr; }
+
+  /* rcard: hide status badge */
+  .rstatus { display:none; }
+
+  /* Form full-width inputs */
+  .form-row input, .form-row select, .form-row textarea { font-size:14px; }
+
+  /* Hide some table columns on very small screens */
+  .st th:nth-child(n+4), .st td:nth-child(n+4) { display:none; }
+  .rtable th:nth-child(n+4), .rtable td:nth-child(n+4) { display:none; }
+}
+
+/* Ensure tap targets are big enough */
+@media(max-width:768px) {
+  .btn { min-height:44px; }
+  .stab { min-height:44px; padding:13px 16px; }
+  .faq-q { min-height:48px; }
+  .rblock-hd { min-height:48px; }
+  .drawer-nav a { min-height:44px; }
+  .rsbtn { min-height:40px; padding:10px 16px; }
+  input, select, textarea { min-height:44px; font-size:16px !important; /* prevents iOS zoom */ }
+}
+
+/* ═══════════ DIVISION COLOR MORPHING ════════════════════════ */
+body {
+  --hero-accent-r:255;
+  --hero-accent-g:46;
+  --hero-accent-b:46;
+  transition: --hero-accent-r .6s, --hero-accent-g .6s, --hero-accent-b .6s;
+}
+
+/* Color glow overlay que cambia con la división activa */
+.lic-section-glow {
+  position:fixed; inset:0; z-index:-1; pointer-events:none;
+  opacity:0; transition:opacity 1.2s ease, background 1.2s ease;
+}
+.lic-section-glow.visible {
+  opacity:1;
+}
+
+/* Tier card active state para highlight de división */
+.tier { transition:transform .2s, box-shadow .2s, border-color .5s; }
+
+/* ═══════════ COUNTER ANIMATION ══════════════════════════════ */
+.pcstat-n {
+  font-family:var(--f-display);font-size:24px;color:#fff;line-height:1;
+  transition:color .25s;
+}
+.pcnum {
+  position:absolute;top:8px;right:12px;
+  font-family:var(--f-display);font-size:72px;
+  color:rgba(255,255,255,.04);line-height:1;pointer-events:none;
+  transition:opacity .25s, color .25s, text-shadow .25s;letter-spacing:-2px;
+  /* Animación de entrada */
+  animation: none;
+}
+.pcard.counted .pcnum {
+  animation: pcnumIn .5s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes pcnumIn {
+  from { opacity:0; transform:scale(.6) translateY(10px); }
+  to   { opacity:1; transform:none; }
+}
+.pcard:hover .pcnum{opacity:.18;color:var(--tc,var(--red));text-shadow:0 0 40px var(--tc,var(--red));}
+
+/* ═══════════ SUAVIZADO DE TRANSICIONES ENTRE SECCIONES ════════════════ */
+
+/* Las secciones con fondo bg1 reciben un fade suave arriba y abajo */
+section {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Secciones claras (bg1) — gradiente de entrada desde bg0 y salida hacia bg0 */
+section[style*="background:var(--bg1)"],
+section[style*="background: var(--bg1)"] {
+  background: transparent !important;
+}
+
+section[style*="background:var(--bg1)"]::before,
+section[style*="background: var(--bg1)"]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(to bottom,
+      var(--bg0) 0%,
+      var(--bg1) 8%,
+      var(--bg1) 92%,
+      var(--bg0) 100%
+    );
+  pointer-events: none;
+}
+
+/* Secciones sin inline background (quedan sobre bg0 del body) */
+/* Agregamos un fade muy sutil para evitar el corte con la anterior */
+section:not([style*="background"]):not(#inicio) {
+  background: transparent;
+}
+section:not([style*="background"]):not(#inicio)::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(to bottom,
+      var(--bg1) 0%,
+      var(--bg0) 6%,
+      var(--bg0) 94%,
+      var(--bg1) 100%
+    );
+  pointer-events: none;
+}
+
+/* Hero no necesita fade */
+#inicio { isolation: auto; }
+#inicio::before { display: none; }
+
+/* La sección de transmisión (full-width) mantiene bg1 sin márgenes de fade */
+#transmision[style*="background:var(--bg1)"]::before {
+  background:
+    linear-gradient(to bottom,
+      var(--bg0) 0%,
+      var(--bg1) 5%,
+      var(--bg1) 95%,
+      var(--bg0) 100%
+    );
+}
+
+/* Fade extra para FAQ (última sección antes del footer) */
+#faq::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 120px;
+  background: linear-gradient(to bottom, transparent, var(--bg0));
+  pointer-events: none;
+  z-index: 0;
+}
+
 </style>
 </head>
 <body>
@@ -2599,6 +2880,115 @@ function filterFaq(cat, btn) {
     item.classList.toggle('hidden', cat !== 'all' && item.dataset.cat !== cat);
   });
 }
+
+// ════════════════════════════════════════════
+// COUNTER ANIMADO EN PILOTOS
+// ════════════════════════════════════════════
+(function() {
+  function countUp(el, target, duration) {
+    if (isNaN(target) || target === 0) return;
+    const start = performance.now();
+    function step(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      // easeOutExpo
+      const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      el.textContent = Math.round(ease * target);
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  const counterObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const card = e.target;
+      if (card.classList.contains('counted')) return;
+      card.classList.add('counted');
+
+      // Animar el pcnum (número grande de fondo)
+      const pcnum = card.querySelector('.pcnum');
+      if (pcnum) {
+        const val = parseInt(pcnum.textContent) || 0;
+        if (val > 0) countUp(pcnum, val, 800);
+      }
+
+      // Animar stats del piloto
+      card.querySelectorAll('.pcstat-n').forEach((el, i) => {
+        const raw = el.textContent.trim();
+        const num = parseFloat(raw);
+        if (!isNaN(num) && raw !== '—') {
+          setTimeout(() => countUp(el, num, 700), i * 120);
+        }
+      });
+
+      counterObs.unobserve(card);
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('.pcard').forEach(c => counterObs.observe(c));
+})();
+
+// ════════════════════════════════════════════
+// COLOR MORPHING POR DIVISIÓN AL ENTRAR EN LICENCIAS
+// ════════════════════════════════════════════
+(function() {
+  // Paleta de colores por división
+  const divColors = {
+    elite: { r:201, g:168, b:76, name:'Elite & Oro', glow:'rgba(201,168,76,.18)' },
+    plata: { r:155, g:163, b:175, name:'Plata & Bronce', glow:'rgba(155,163,175,.14)' },
+    default: { r:255, g:46, b:46, glow:'rgba(255,46,46,.12)' }
+  };
+
+  // Crear overlay de glow
+  const glow = document.createElement('div');
+  glow.className = 'lic-section-glow';
+  document.body.appendChild(glow);
+
+  function applyDivColor(colorKey) {
+    const c = divColors[colorKey] || divColors.default;
+    glow.style.background = `radial-gradient(ellipse 80% 60% at 50% 30%, ${c.glow} 0%, transparent 70%)`;
+    glow.classList.add('visible');
+
+    // Cambiar el color accent del body (para chip, sec-line, etc.)
+    document.documentElement.style.setProperty('--red', `rgb(${c.r},${c.g},${c.b})`);
+    document.documentElement.style.setProperty('--red-glow', `rgba(${c.r},${c.g},${c.b},.4)`);
+  }
+
+  function resetDivColor() {
+    glow.classList.remove('visible');
+    // Restaurar color rojo original con delay suave
+    setTimeout(() => {
+      document.documentElement.style.removeProperty('--red');
+      document.documentElement.style.removeProperty('--red-glow');
+    }, 400);
+  }
+
+  // Observer para la sección de licencias
+  const licSection = document.getElementById('licencias');
+  if (licSection) {
+    // Observer para los tiers individuales
+    const tiers = licSection.querySelectorAll('.tier');
+    tiers.forEach((tier, i) => {
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            applyDivColor(i === 0 ? 'elite' : 'plata');
+          }
+        });
+      }, { threshold: 0.4 });
+      obs.observe(tier);
+    });
+
+    // Resetear al salir de la sección
+    const sectionObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) resetDivColor();
+      });
+    }, { threshold: 0 });
+    sectionObs.observe(licSection);
+  }
+})();
 
 </script>
 
