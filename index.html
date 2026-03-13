@@ -761,7 +761,7 @@ footer{
 @media (max-width:768px){
   :root{--nav-h:56px;}
   .sec{padding:52px var(--gutter);}
-  #inicio{padding:calc(var(--nav-h) + 8px) var(--gutter) 20px;}
+  #inicio{padding:calc(var(--nav-h) + 6px) var(--gutter) 90px;}
   .news-feat{grid-template-columns:1fr;}
   .rcard{grid-template-columns:56px 1px 1fr;}
   .cal-results-grid{grid-template-columns:1fr !important;}
@@ -782,7 +782,10 @@ footer{
 }
 @media (max-width:480px){
   .sec{padding:44px var(--gutter);}
-  .hero-logo{max-width:92vw;}
+  .hero-logo{max-width:94vw; margin-bottom:8px;}
+  .hero-eyebrow{margin-bottom:10px;}
+  .hero-tagline{margin-bottom:14px;}
+  #inicio{padding:calc(var(--nav-h) + 4px) 16px 86px;}
   .hero-cd{display:none;}
   .hero-next-label{display:none;}
   .pilots-grid{grid-template-columns:1fr 1fr;}
@@ -791,7 +794,8 @@ footer{
   .lic-banner{height:180px;}
   .lic-banner-overlay{padding:0 16px;}
   .hero-btns .btn{padding:12px 20px;font-size:10px;}
-  .hstat-n{font-size:26px;}
+  .hstat-n{font-size:22px;}
+  .hero-stats{padding-top:16px; margin-top:6px;}
   .sec-head h2{font-size:22px;}
   .lic-how-title h3{font-size:22px;}
   .bcast-bot{grid-template-columns:1fr;}
@@ -1144,7 +1148,7 @@ body.race #theme-toggle { border-color:rgba(255,46,46,.5); box-shadow:0 4px 20px
 .nrb-l { font-size:7px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); }
 .nrb-sep { font-family:var(--f-display); font-size:16px; color:var(--red); align-self:flex-start; margin-top:2px; }
 /* add bottom padding to body on mobile so content not hidden behind banner */
-@media(max-width:768px) { body { padding-bottom:70px; } }
+@media(max-width:768px) { body { padding-bottom:80px; } }
 
 /* ═══════════ WHATSAPP BUTTON ════════════════════════════════ */
 #wa-btn {
