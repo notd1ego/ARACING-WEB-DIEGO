@@ -3266,6 +3266,7 @@ function filterFaq(cat, btn) {
   });
 })();
 </script>
+<!-- 🔥 FIREBASE + FUNCIONES -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -3281,6 +3282,43 @@ function filterFaq(cat, btn) {
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
+
+  // 🔥 INSCRIPCIÓN
+  window.inscribirse = async function(nombre, email, equipo) {
+    if (!nombre || !email) {
+      alert("Completá nombre y email");
+      return;
+    }
+
+    await addDoc(collection(db, "inscripciones"), {
+      nombre,
+      email,
+      equipo: equipo || "Sin equipo",
+      fecha: new Date()
+    });
+
+    alert("Inscripción exitosa 🚀");
+  }
+
+  // 👥 VER INSCRIPTOS
+  window.verInscriptos = async function() {
+    const contenedor = document.getElementById("listaIns");
+    contenedor.innerHTML = "Cargando...";
+
+    const querySnapshot = await getDocs(collection(db, "inscripciones"));
+
+    contenedor.innerHTML = "";
+
+    querySnapshot.forEach(doc => {
+      const data = doc.data();
+
+      contenedor.innerHTML += `
+        <div style="background:#111; margin:5px; padding:10px; border-radius:10px; color:white;">
+          👤 ${data.nombre} | ${data.equipo}
+        </div>
+      `;
+    });
+  }
 </script>
 </body>
 </html>
