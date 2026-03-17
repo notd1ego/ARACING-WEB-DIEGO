@@ -3268,57 +3268,37 @@ function filterFaq(cat, btn) {
 </script>
 <!-- 🔥 FIREBASE + FUNCIONES -->
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+ window.handleForm = async function() {
+  const nombre = document.getElementById("f-name").value;
+  const apellido = document.getElementById("f-last").value;
+  const instagram = document.getElementById("f-ig").value;
+  const division = document.getElementById("f-div").value;
+  const mensaje = document.getElementById("f-msg").value;
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBuiBWv7yQJ6ETnvOsMsWLeowiEKX4oPN4",
-    authDomain: "base-de-datos-aracing.firebaseapp.com",
-    projectId: "base-de-datos-aracing",
-    storageBucket: "base-de-datos-aracing.firebasestorage.app",
-    messagingSenderId: "737545483001",
-    appId: "1:737545483001:web:4cfad24fbd0865684f6828"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  // 🔥 INSCRIPCIÓN
-  window.inscribirse = async function(nombre, email, equipo) {
-    if (!nombre || !email) {
-      alert("Completá nombre y email");
-      return;
-    }
-
-    await addDoc(collection(db, "inscripciones"), {
-      nombre,
-      email,
-      equipo: equipo || "Sin equipo",
-      fecha: new Date()
-    });
-
-    alert("Inscripción exitosa 🚀");
+  if (!nombre || !apellido) {
+    alert("Completá nombre y apellido");
+    return;
   }
 
-  // 👥 VER INSCRIPTOS
-  window.verInscriptos = async function() {
-    const contenedor = document.getElementById("listaIns");
-    contenedor.innerHTML = "Cargando...";
+  await addDoc(collection(db, "inscripciones"), {
+    nombre,
+    apellido,
+    instagram,
+    division,
+    mensaje,
+    fecha: new Date()
+  });
 
-    const querySnapshot = await getDocs(collection(db, "inscripciones"));
+  // mostrar mensaje de éxito
+  document.getElementById("formSuccess").style.display = "block";
 
-    contenedor.innerHTML = "";
-
-    querySnapshot.forEach(doc => {
-      const data = doc.data();
-
-      contenedor.innerHTML += `
-        <div style="background:#111; margin:5px; padding:10px; border-radius:10px; color:white;">
-          👤 ${data.nombre} | ${data.equipo}
-        </div>
-      `;
-    });
-  }
+  // limpiar form
+  document.getElementById("f-name").value = "";
+  document.getElementById("f-last").value = "";
+  document.getElementById("f-ig").value = "";
+  document.getElementById("f-div").value = "";
+  document.getElementById("f-msg").value = "";
+}
 </script>
 </body>
 </html>
