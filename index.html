@@ -3266,6 +3266,21 @@ function filterFaq(cat, btn) {
   });
 })();
 </script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+  const firebaseConfig = {
+    apiKey: "AIzaSyBuiBWv7yQJ6ETnvOsMsWLeowiEKX4oPN4",
+    authDomain: "base-de-datos-aracing.firebaseapp.com",
+    projectId: "base-de-datos-aracing",
+    storageBucket: "base-de-datos-aracing.firebasestorage.app",
+    messagingSenderId: "737545483001",
+    appId: "1:737545483001:web:4cfad24fbd0865684f6828"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+</script>
 </body>
 </html>
